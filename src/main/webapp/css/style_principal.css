@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Times New Roman', Times, serif;
+    list-style: none;
+    
+}
+
+
+body {
+    background-image: url(../Images/UAEMEX2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.info-user {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.tabla-usuario table{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    display:grid;
+    background-color: white;
+    margin: 15px;
+    padding: 15px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 10px solid #000;
+    width: 100%px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 10px;
+    font-style: italic;
+    color: rgba(156,132,18,1);
+}
+
+.section-logo {
+    background-color: white;
+    display:grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.img_user {
+    display:grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo{
+    align-self: center;
+    max-height: 100px;  
+}
+
+.user {
+    align-self: center;
+    max-height: 250px;  
+} 
+
+
+.impar td{
+    background-color: rgba(156,132,18,1); 
+    color:beige;
+
+}
+
+.par td{
+    background-color: rgba(62,84,52,0.9);
+    color:beige;
+}
+
+td { 
+    text-align: left;
+
+}
+.dato {
+    width:200px;
+    max-width:200px;
+    font-weight: bolder;
+}
+
+.form-user {
+    display:grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-user form {
+    width: 100%;
+    padding: 20px 20px 20px 20px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.form-user button{  
+    padding:10px 20px;
+    margin-top: 10px;
+    width:200px;
+    max-width:200px;
+    font-size: 15px;
+    background:rgba(44, 82, 52);
+    color:white;
+    border:none;
+    cursor:pointer;
+ }
+
+ .form-user form button:hover{    
+    background: rgba(156, 132, 18, 1);
+    color:white;
+ }
+
+
