@@ -1,0 +1,17 @@
+model\Students.class
+uaemex\mx\tallerdeinglesuaem\JakartaRestConfiguration.class
+uaemex\mx\tallerdeinglesuaem\resources\JakartaEE10Resource.class
+controller\BaseDatosObtener.class
+controller\loginStudent.class
+model\Grade.class
+controller\BaseDatos.class
+model\Payment.class
+model\Pay_simbology.class
+model\Payment_status.class
+model\Grupos.class
+model\Users.class
+controller\principalStudent.class
+model\Report.class
+model\Category.class
+model\Admin_school.class
+model\Teachers.class

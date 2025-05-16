@@ -1,0 +1,305 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Times New Roman', Times, serif;
+    list-style: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    background-image: linear-gradient(
+        rgba(0,0,0,0.6),
+        rgba(62,84,52,0.6),
+        rgba(156,132,18,0.8)
+        );
+    min-height: 15vh;
+    display: flex;
+    align-items: center;
+}
+
+.menu {
+    position:absolute;
+    top: 0;
+    left:0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-navbar {
+    height:100%;
+    max-height: 80px;
+}
+
+.menu .navbar ul li {
+    position: relative;
+    float:left;
+
+}
+
+.menu .navbar ul li a:hover{
+    color: rgb(255, 213, 1);
+}
+
+.menu .navbar ul li a{
+    font-size: 20px;
+    padding:20px;
+    color: white;
+    display: block;
+    font-weight: 700;
+}
+
+#menu {
+    display: none;
+}
+
+.menu-icono {
+    width:90px;
+}
+
+.menu label {
+    cursor: pointer;
+    display: none;
+}
+
+.header {
+    text-align: center;
+}
+
+.header-content img{
+    height: 100%;
+    max-height: 250px;
+    padding-bottom: 25px;
+}
+
+.header-content p{
+    font-size: 18px;
+    font-weight: 150px;
+    color:rgb(255, 255, 255);
+    padding: 0 250px;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+
+
+body {
+    background-image: url(../Images/FotoCursos.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+main{
+    width: 100%;
+    padding: 20px;
+    margin: auto;
+    margin-top: 100px;
+    display:grid;
+    place-items: center;
+}
+
+.logo { 
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+    top: -95px;
+}
+
+.logo div{
+    margin: 100px 30px;
+}
+
+.logo img{
+    background-color: white;
+    width: 100%;
+    justify-content: center;
+}
+
+.contenedor_form{
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+}
+
+.caja_trasera{
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    background-color: rgba(44, 82, 52, 0.5);
+}
+
+.caja_trasera div{
+    margin: 100px 40px;
+    color:white;
+    transition: all 500ms;
+}
+
+.caja_trasera div p, .caja_trasera div button {
+    margin-top: 30px;
+}
+
+.caja_trasera div h1{
+    font-weight: 300;
+    font-size: 40px;
+
+}
+
+.caja_trasera div button{
+    padding: 10px 50px;
+    background-color:  rgba(156, 132, 18, 1);
+    font-size: 17px;
+    font-weight: 550;
+    cursor:pointer;
+    color: rgb(255,255,255);
+    border: none;
+    transform: all 300ms;
+}
+
+.caja_trasera button:hover{
+    background: rgba(44, 82, 52, 0.5);
+    color:white;
+}
+
+/*Formularios*/
+
+.contenedor_login_register{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 380px;
+    position: relative;
+    top: -200px;
+    left: 20px;
+    transition: left 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.contenedor_login_register form{
+    width: 100%;
+    padding: 80px 20px;
+    background-color: white;
+    position: absolute;
+    border-radius: 30px;
+}
+
+.contenedor_login_register form h2{
+   font-size: 30px;
+   text-align: center;
+   margin-bottom: 23px;
+   color:rgba(156, 132, 18, 1);
+
+}
+
+.contenedor_login_register form input{
+    width:100%;
+    margin-top: 10px;
+    padding:9px;
+    background: rgb(255,240,190);
+    color:rgba(156, 132, 18, 1);
+    border:none;
+ }
+
+.contenedor_login_register form button{    
+    padding:10px 40px;
+    margin-top: 40px;
+    font-size: 15px;
+    background:rgba(44, 82, 52);
+    color:white;
+    border:none;
+    cursor:pointer;
+
+ }
+
+ .contenedor_login_register form button:hover{    
+    background: rgba(156, 132, 18, 1);
+    color:white;
+ }
+
+ .form_login{
+    opacity:1;
+    display: block;
+ }
+
+ .form_register{
+    display: none;
+ }
+
+ .form_register p{
+    font-size: 15px;
+    margin-top: 30px;
+ }
+
+ #sp-footer h1 {
+    text-align: center;
+    color: gray;
+
+}
+
+#sp-footer {
+    background:rgb(255,255,255);
+    color:rgb(99, 97, 97);
+}
+
+#sp-footer a {
+    color:#8f8c8c
+}
+
+#sp-footer span {
+    font-size: 15px;
+}
+
+.privacy {
+    text-align: center;
+}
+
+.container-conocenos {
+    display:grid;
+    padding: 0 250px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+ li {
+    list-style: none;
+    text-overflow: clip;
+}
+
+ @media screen and (max-width: 860px){
+    main{
+        margin-top: 55px;
+    }
+
+    .caja_trasera{
+        max-width: 350px;
+        height: 300px;
+        flex-direction: column;
+        margin: auto;
+    }
+
+    .caja_trasera div{
+        margin:0px;
+        position:absolute;
+    }
+
+    .contenedor_login_register{
+        top: -10px;
+        left: -5px;
+        margin:auto;
+    }
+
+    .contenedor_login_register form{
+        position:relative;
+    }
+ }
