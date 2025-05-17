@@ -35,13 +35,15 @@ public class BaseDatosObtener {
     }
     
     
-    public ArrayList<Users> obtenerUsuario(){
-        ArrayList<Users> listaUsuarios = new ArrayList<>();
+    public ArrayList<Users> obtenerUsuario(String usuario){
+        ArrayList<Users> listaUsuario = new ArrayList<>();
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM users;";
+            String sql = "SELECT * FROM users WHERE nom_user = ?;";
+            
             pstm = con.prepareStatement(sql);
+            pstm.setString(1, usuario);
             rs = pstm.executeQuery();
             
             while(rs.next()){
@@ -51,7 +53,7 @@ public class BaseDatosObtener {
                 String rango = rs.getString("rango");
                 
                 Users user = new Users(id_user, nom_user, password, rango);
-                listaUsuarios.add(user);
+                listaUsuario.add(user);
             }
             
         }catch(SQLException ex){
@@ -64,17 +66,18 @@ public class BaseDatosObtener {
             ex.printStackTrace();
             }
         }
-        return listaUsuarios;
+        return listaUsuario;
     }
     
     
-    public ArrayList<Teachers> obtenerTeacher(){
+    public ArrayList<Teachers> obtenerTeacher(int id){
         ArrayList<Teachers> listaTeachers = new ArrayList<>();
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM TEACHERS ORDER BY apellido_paterno_teacher;";
+            String sql = "SELECT * FROM TEACHERS WHERE id_teacher = ?;";
             pstm = con.prepareStatement(sql);
+            pstm.setInt(1, id);
             rs = pstm.executeQuery();
             
             while(rs.next()){
@@ -108,14 +111,14 @@ public class BaseDatosObtener {
         return listaTeachers;
     }
     
-    
-    public ArrayList<Students> obtenerEstudiante(){
+    public ArrayList<Students> obtenerEstudiante(int id_user){
         ArrayList<Students> listaStudents = new ArrayList<>();
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM STUDENTS ORDER BY apellido_paterno_student;";
+            String sql = "SELECT * FROM STUDENTS WHERE id_user_student = ?;";
             pstm = con.prepareStatement(sql);
+            pstm.setInt(1, id_user);
             rs = pstm.executeQuery();
             
             while(rs.next()){
@@ -155,190 +158,14 @@ public class BaseDatosObtener {
         return listaStudents;
     }
     
-    
-    public ArrayList<Admin_school> obtenerAdministrador(){
-        ArrayList<Admin_school> listaAdministrador = new ArrayList<>();
-        try{
-            String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
-            con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM admin_school ORDER BY apellido_paterno_admin;";
-            pstm = con.prepareStatement(sql);
-            rs = pstm.executeQuery();
-            
-            while(rs.next()){
-                int id_admin = rs.getInt("id_admin");
-                int id_user_admin = rs.getInt("id_user_admin");
-                String apellido_paterno_admin = rs.getString("apellido_paterno_admin");
-                String apellido_materno_admin = rs.getString("apellido_materno_admin");
-                String nombre_admin = rs.getString("nombre_admin");
-                Object fecha_nacimiento_admin = rs.getObject("fecha_nacimiento_admin");
-
-   
-                
-                Admin_school administrator = new Admin_school(id_admin, id_user_admin, apellido_paterno_admin, apellido_materno_admin,
-                                                nombre_admin, fecha_nacimiento_admin);
-                listaAdministrador.add(administrator);
-            }
-            
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }finally{
-            try{
-                pstm.close();
-                con.close();
-            }catch(SQLException ex){
-            ex.printStackTrace();
-            }
-        }
-        return listaAdministrador;
-    }
-   
-    
-    public ArrayList<Report> obtenerCalificaciones(){
-        ArrayList<Report> listaCalificaciones = new ArrayList<>();
-        try{
-            String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
-            con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM STUDENTS ORDER BY apellido_paterno_student;";
-            pstm = con.prepareStatement(sql);
-            rs = pstm.executeQuery();
-            
-            while(rs.next()){
-                int id_report = rs.getInt("id_report");
-                double first_partial_report = rs.getDouble("first_partial_report");
-                double second_partial_report = rs.getDouble("second_partial_report");
-                double avg_report = rs.getDouble("avg_report");
-                
-                Report reporte = new Report(id_report, first_partial_report, second_partial_report, avg_report);
-                listaCalificaciones.add(reporte);
-            }
-            
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }finally{
-            try{
-                pstm.close();
-                con.close();
-            }catch(SQLException ex){
-            ex.printStackTrace();
-            }
-        }
-        return listaCalificaciones;
-    }
-    
-    
-    public ArrayList<Payment_status> obtenerEstatus(){
-        ArrayList<Payment_status> listaEstatus = new ArrayList<>();
-        try{
-            String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
-            con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM payment_status;";
-            pstm = con.prepareStatement(sql);
-            rs = pstm.executeQuery();
-            
-            while(rs.next()){
-                int id_status = rs.getInt("id_status");
-                String description_status = rs.getString("description_status");
-                
-                Payment_status status = new Payment_status(id_status, description_status);
-                listaEstatus.add(status);
-            }
-            
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }finally{
-            try{
-                pstm.close();
-                con.close();
-            }catch(SQLException ex){
-            ex.printStackTrace();
-            }
-        }
-        return listaEstatus;
-    }
-    
-    
-    public ArrayList<Payment> obtenerSeguimiento(){
-        ArrayList<Payment> listaSeguimiento = new ArrayList<>();
-        try{
-            String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
-            con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM payment;";
-            pstm = con.prepareStatement(sql);
-            rs = pstm.executeQuery();
-            
-            while(rs.next()){
-                int id_payment = rs.getInt("id_status");
-                boolean register_payment = rs.getBoolean("register_payment");
-                boolean pay_1 = rs.getBoolean("pay_1");
-                boolean pay_2 = rs.getBoolean("pay_2");
-                boolean pay_3 = rs.getBoolean("pay_3");
-                boolean pay_4 = rs.getBoolean("pay_4");
-                boolean pay_5 = rs.getBoolean("pay_5");
-                boolean pay_6 = rs.getBoolean("pay_6");
-                boolean pay_7 = rs.getBoolean("pay_7");
-                int payment_status = rs.getInt("payment_status");
-                
-                Payment pago = new Payment(id_payment, register_payment, pay_1, pay_2, pay_3, pay_4, pay_5, pay_6, pay_7, payment_status);
-                listaSeguimiento.add(pago);
-            }
-            
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }finally{
-            try{
-                pstm.close();
-                con.close();
-            }catch(SQLException ex){
-            ex.printStackTrace();
-            }
-        }
-        return listaSeguimiento;
-    }
-    
-    //Simbologia de Pagos
-    
-    public ArrayList<Pay_simbology> obtenerCalendario(){
-        ArrayList<Pay_simbology> calendario = new ArrayList<>();
-        try{
-            String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
-            con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM payment;";
-            pstm = con.prepareStatement(sql);
-            rs = pstm.executeQuery();
-            
-            while(rs.next()){
-                int id_pay = rs.getInt("id_pay");
-                String month = rs.getString("month");
-                String description_pay = rs.getString("description_pay");
-                double cost_pay = rs.getDouble("cost_pay");
-                String period_pay = rs.getString("period_pay");
-                Object deadline_pay = rs.getObject("deadline_pay");
-                Pay_simbology mes = new Pay_simbology(id_pay, month, description_pay, cost_pay, period_pay, deadline_pay);
-                calendario.add(mes);
-            }
-            
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }finally{
-            try{
-                pstm.close();
-                con.close();
-            }catch(SQLException ex){
-            ex.printStackTrace();
-            }
-        }
-        return calendario;
-    }
-   
-    
-    public ArrayList<Grupos> obtenerGrupos(){
+    public ArrayList<Grupos> obtenerGrupos(int id){
         ArrayList<Grupos> listaGrupos = new ArrayList<>();
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM payment;";
+            String sql = "SELECT * FROM GRUPOS WHERE id_group = ?;";
             pstm = con.prepareStatement(sql);
+            pstm.setInt(1, id);
             rs = pstm.executeQuery();
             
             while(rs.next()){
@@ -365,15 +192,14 @@ public class BaseDatosObtener {
         return listaGrupos;
     }
     
-    //Seleccionar entre Basico, Intermedio o Avanzado
-    
-    public ArrayList<Grade> obtenerNivel(){
+     public ArrayList<Grade> obtenerNivel(int id){
         ArrayList<Grade> listaNiveles = new ArrayList<>();
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM GRADE;";
+            String sql = "SELECT * FROM grade WHERE id_grade = ?;";
             pstm = con.prepareStatement(sql);
+            pstm.setInt(1, id);
             rs = pstm.executeQuery();
             
             while(rs.next()){
@@ -396,16 +222,15 @@ public class BaseDatosObtener {
         }
         return listaNiveles;
     }
-    
-    //Seleccionar entre Children o Teens
-    
-    public ArrayList<Category> obtenerCategorias(){
+     
+    public ArrayList<Category> obtenerCategorias(int id){
         ArrayList<Category> listaCategorias = new ArrayList<>();
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM CATEGORY;";
+            String sql = "SELECT * FROM category WHERE id_category = ?;";
             pstm = con.prepareStatement(sql);
+            pstm.setInt(1, id);
             rs = pstm.executeQuery();
             
             while(rs.next()){
@@ -427,5 +252,97 @@ public class BaseDatosObtener {
             }
         }
         return listaCategorias;
+    }
+    
+    public ArrayList<String> obtenerDatosGrupo(int id_teacher){
+        ArrayList <String> datosGrupo = new ArrayList<>();
+        ArrayList <Teachers> listaTeacher = obtenerTeacher(id_teacher);
+        Iterator <Teachers> iteradorTeacher = listaTeacher.iterator();
+        //Busca datos del maestro
+        Teachers per = null;
+        while(iteradorTeacher.hasNext()){
+            per = iteradorTeacher.next();
+            int id_group_teacher = per.getId_group_teacher();
+            ArrayList <Grupos> grupo = obtenerGrupos(id_group_teacher);
+            Iterator <Grupos> iteradorGrupo = grupo.iterator();
+            //Busca al grupo correspondiente
+            Grupos per1 = null;
+            while(iteradorGrupo.hasNext()){
+                per1 = iteradorGrupo.next();
+                int id_grade = per1.getId_grade();
+                int level_group = per1.getLevel_group();
+                int id_category_group = per1.getId_category_group();
+                ArrayList <Grade> grade = obtenerNivel(id_grade);
+                ArrayList <Category> category = obtenerCategorias(id_category_group);
+                Iterator <Grade> iteradorNivel = grade.iterator();
+                Iterator <Category> iteradorCategory = category.iterator();
+                Grade per2 = null;
+                Category per3 = null;
+                while(iteradorNivel.hasNext()){
+                    per2 = iteradorNivel.next();
+                    datosGrupo.add(per2.getDescription_grade());
+                    datosGrupo.add(String.valueOf(level_group));
+                    while(iteradorCategory.hasNext()){
+                        per3 = iteradorCategory.next();
+                        datosGrupo.add(per3.getDescription_category());
+                    }
+                }
+            }
+        }
+        return datosGrupo;
+    }
+    public ArrayList<String> obtenerDatosAlumno(String usuario){
+        /*    0. Apellido Paterno
+              1. Apellido Materno
+              2. Nombre
+              3. Nombre de Usuario
+              4. Fecha de Nacimiento
+              5. Numeros de Telefono
+              6. Id del Profesor
+              7. Grupo Asignado
+              8. Rango
+              9. Nombre de usuario
+              10. Seguimiento de Pago
+              11. Lista de Calificaciones*/
+              
+        ArrayList <String> listaDatos = new ArrayList<>();
+        ArrayList <Users> lista = obtenerUsuario(usuario);
+        Iterator  <Users> iter = lista.iterator();
+        Users per = null;
+        while(iter.hasNext()){
+            per = iter.next();
+            int idUsuario = per.getId_user();
+            String nombreUsuario = per.getNom_user(); 
+            //Accede a la lista de alumnos y busca al que concuerda con el usuario
+            ArrayList <Students> datos = obtenerEstudiante(idUsuario);
+            Iterator  <Students> iter1 = datos.iterator();  
+            Students perStudents = null;
+            while(iter1.hasNext()){
+                perStudents = iter1.next();
+                listaDatos.add(perStudents.getApellido_paterno_student());
+                listaDatos.add(perStudents.getApellido_materno_student());
+                listaDatos.add(perStudents.getNombre_student());
+                listaDatos.add(nombreUsuario);
+                listaDatos.add(String.valueOf(perStudents.getFecha_nacimiento_student()));
+                listaDatos.add(perStudents.getTelefono1_student() + "<br>" +
+                               perStudents.getTelefono1_student());
+                listaDatos.add(String.valueOf(perStudents.getId_teacher_student()));
+                if(perStudents.getId_teacher_student()==0){
+                    listaDatos.add("NINGUNO");
+                }
+                else{
+                   ArrayList<String> grupo = obtenerDatosGrupo(perStudents.getId_teacher_student());
+                   String datosGrupos = grupo.get(0) + " "; 
+                   datosGrupos += grupo.get(1) + ": ";
+                   datosGrupos +=grupo.get(2);
+                   listaDatos.add(datosGrupos); 
+                }
+                listaDatos.add(per.getRango());
+                listaDatos.add(String.valueOf(idUsuario));
+                listaDatos.add(String.valueOf(perStudents.getId_payment_student()));
+                listaDatos.add(String.valueOf(perStudents.getId_report_student()));
+            }
+        }
+        return listaDatos;
     }
 }

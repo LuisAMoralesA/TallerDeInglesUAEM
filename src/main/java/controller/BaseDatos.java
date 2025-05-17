@@ -115,10 +115,14 @@ public class BaseDatos {
                     pagina  = DATO_INCORRECTO;
                 }
             }
+            else{
+                pagina = USUARIO_NO_ENCONTRADO;
+            }
             
         }catch(SQLException ex){
             ex.printStackTrace();
             pagina = USUARIO_NO_ENCONTRADO;
+            
         }finally{
             try{
                 pstm.close();
@@ -167,7 +171,7 @@ public class BaseDatos {
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM TEACHERS ORDER BY apellido_paterno_teacher;";
+            String sql = "SELECT * FROM teachers ORDER BY apellido_paterno_teacher;";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
             
@@ -242,7 +246,7 @@ public class BaseDatos {
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM STUDENTS ORDER BY apellido_paterno_student;";
+            String sql = "SELECT * FROM students ORDER BY apellido_paterno_student;";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
             
@@ -375,7 +379,7 @@ public class BaseDatos {
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM STUDENTS ORDER BY apellido_paterno_student;";
+            String sql = "SELECT * FROM report;";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
             
@@ -551,7 +555,7 @@ public class BaseDatos {
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM payment;";
+            String sql = "SELECT * FROM pay_simbology;";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
             
@@ -608,7 +612,7 @@ public class BaseDatos {
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM payment;";
+            String sql = "SELECT * FROM grupos;";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
             
@@ -663,7 +667,7 @@ public class BaseDatos {
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM GRADE;";
+            String sql = "SELECT * FROM grade;";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
             
@@ -715,7 +719,7 @@ public class BaseDatos {
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "SELECT * FROM CATEGORY;";
+            String sql = "SELECT * FROM category;";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
             

@@ -6,9 +6,12 @@
 
 <%@page import="java.sql.*" %>
 <%@page import="com.mysql.jdbc.Driver" %>
-<%@page import ="controller.BaseDatos"%>
-<%@page import = "jakarta.servlet.http.HttpSession" %>%>
+<%@page import ="controller.BaseDatosObtener"%>
+<%@page import ="model.*"%>
+<%@page import ="java.util.*"%>
+<%@page import = "jakarta.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,11 +25,7 @@
     <title>Bienvenido!!</title>
 </head>
 <body>
-    <%
-        HttpSession sesion = request.getSession();
-        String usuario = (String) sesion.getAttribute("nombreUsuario");
-        BaseDatos base = new BaseDatos();
-    %>
+    
     <section class = "section-logo">
         <div class="img_taller"></div>
             <img src="/tallerDeInglesUAEM/Images/Logo_Taller.png" alt="Imagen_Taller" class = "logo"/>
@@ -55,56 +54,61 @@
                             </div>
                         </td>
                 </tr>
-    
+                <%
+                    //Obtiene la sesion al usuario
+                    HttpSession sesion = request.getSession();
+                    String usuario = (String) sesion.getAttribute("sesionIniciada");
+                    //Accede a la base de datos y accede a los datos del usuario
+                    BaseDatosObtener base = new BaseDatosObtener();
+                    ArrayList <String> lista = base.obtenerDatosAlumno(usuario);
+                %>
                 <tr class = "impar">
                     <td class = "dato">Apellido Paterno: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(0)%> </td>
                 </tr>
     
                 <tr class = "par">
                     <td class = "dato">Apellido Materno: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(1)%>  </td>
                 </tr>
     
                 <tr class = "impar">
                     <td class = "dato">Nombre: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(2)%> </td>
                 </tr>
     
                 <tr class = "par">
                     <td class = "dato">Nombre de Usuario: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(3)%> </td>
                 </tr>
     
                 <tr class = "impar">
                     <td class = "dato">Fecha de Nacimiento: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(4)%>  </td>
                 </tr>
     
                 <tr class = "par">
                     <td class = "dato">Numero de Telefono: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(5) %>  </td>
                 </tr>
     
-                <tr class = "impar">
+                <tr class = "impar" value = <%=lista.get(6)%>>
                     <td class = "dato">Grupo Asignado: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(7)%>  </td>
                 </tr>
                 
                 <tr class = "par">
                     <td class = "dato">Rango: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(8)%>  </td>
                 </tr>
-                
+      
             </table>
-
             <div class="form-user">
                 <form action = "" class = "form_options" method = "POST">
-                    
-                        <td><button>Modificar Datos</button></td>
-                        <td><button>Consultar Pagos</button></td>
-                        <td><button>Consultar Calificaciones</button></td>
-                        <td><button>Cerrar Sesión</button></td>
+                    <td><button value="<%=lista.get(9)%>">Modificar Datos</button></td>
+                    <td><button value="<%=lista.get(10)%>">Consultar Pagos</button></td>
+                    <td><button value="<%=lista.get(11)%>">Consultar Calificaciones</button></td>
+                    <td><button>Cerrar Sesión</button></td>
                 </form>
             </div>
         </div>

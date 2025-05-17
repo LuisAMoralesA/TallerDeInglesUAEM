@@ -40,16 +40,16 @@ public class loginStudent extends HttpServlet {
                 case BaseDatos.ACCESO_CONCEDIDO:
                     //Estableces una sesion al usuario
                     HttpSession sesion = request.getSession(true); 
-                    sesion.setAttribute("sesionIniciada: " + BaseDatos.ACCESO_CONCEDIDO, user);
+                    sesion.setAttribute("sesionIniciada", user);
                     response.sendRedirect(request.getContextPath()+"/principalStudent");
                     break;
                 case BaseDatos.USUARIO_NO_ENCONTRADO:
-                    request.setAttribute("errorMessage", "Usuario no encontrado: " + BaseDatos.USUARIO_NO_ENCONTRADO);
+                    request.setAttribute("errorMessage", "Usuario no encontrado");
                     request.getRequestDispatcher("/view/login_student.jsp").forward(request, response);
                     break;
                 case BaseDatos.DATO_INCORRECTO:
                     //BaseDatos.DATO_INCORRECTO;
-                    request.setAttribute("errorMessage", "Alguno de los datos esta incorrecto: + : " + BaseDatos.DATO_INCORRECTO);
+                    request.setAttribute("errorMessage", "Alguno de los datos esta incorrecto");
                     request.getRequestDispatcher("/view/login_student.jsp").forward(request, response);
                     //request.setAttribute("incorrectInformation", user);
                     break;
