@@ -15,10 +15,6 @@ import model.*;
  */
 
 public class BaseDatosObtener {
-    //Implementa constantes de inicio de sesión
-    public static final int DATO_INCORRECTO = 1;
-    public static final int USUARIO_NO_ENCONTRADO = 2;
-    public static final int ACCESO_CONCEDIDO = 3;
     
     Connection con = null;
     PreparedStatement pstm = null;
@@ -111,14 +107,52 @@ public class BaseDatosObtener {
         return listaTeachers;
     }
     
-    public ArrayList<Students> obtenerEstudiante(int id_user){
+     public ArrayList<Admin_school> obtenerAdministrador(int id){
+        ArrayList<Admin_school> listaAdministrador = new ArrayList<>();
+        try{
+            String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
+            con = DriverManager.getConnection(urlDB, "nbUser", "123456");
+            String sql = "SELECT * FROM admin_school WHERE id_user_admin = ?;";
+            pstm = con.prepareStatement(sql);
+            pstm.setInt(1, id);
+            rs = pstm.executeQuery();
+            
+            while(rs.next()){
+                int id_admin = rs.getInt("id_admin");
+                int id_user_admin = rs.getInt("id_user_admin");
+                String apellido_paterno_admin = rs.getString("apellido_paterno_admin");
+                String apellido_materno_admin = rs.getString("apellido_materno_admin");
+                String nombre_admin = rs.getString("nombre_admin");
+                Object fecha_nacimiento_admin = rs.getObject("fecha_nacimiento_admin");
+
+   
+                
+                Admin_school administrator = new Admin_school(id_admin, id_user_admin, apellido_paterno_admin, apellido_materno_admin,
+                                                nombre_admin, fecha_nacimiento_admin);
+                listaAdministrador.add(administrator);
+            }
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }finally{
+            try{
+                pstm.close();
+                con.close();
+            }catch(SQLException ex){
+            ex.printStackTrace();
+            }
+        }
+        return listaAdministrador;
+    }
+     
+    public ArrayList<Students> obtenerEstudiante(int id){
         ArrayList<Students> listaStudents = new ArrayList<>();
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
             String sql = "SELECT * FROM STUDENTS WHERE id_user_student = ?;";
             pstm = con.prepareStatement(sql);
-            pstm.setInt(1, id_user);
+            pstm.setInt(1, id);
             rs = pstm.executeQuery();
             
             while(rs.next()){
@@ -254,6 +288,8 @@ public class BaseDatosObtener {
         return listaCategorias;
     }
     
+    
+    
     public ArrayList<String> obtenerDatosGrupo(int id_teacher){
         ArrayList <String> datosGrupo = new ArrayList<>();
         ArrayList <Teachers> listaTeacher = obtenerTeacher(id_teacher);
@@ -291,6 +327,69 @@ public class BaseDatosObtener {
         }
         return datosGrupo;
     }
+    
+    public int conteoAlumnos(){
+        int conteo = 0;
+        try{
+            String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
+            con = DriverManager.getConnection(urlDB, "nbUser", "123456");
+            String sql = "SELECT COUNT(*) FROM STUDENTS;";
+            pstm = con.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            
+            while(rs.next()){
+                conteo = rs.getInt(1);
+            }
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }finally{
+            try{
+                pstm.close();
+                con.close();
+            }catch(SQLException ex){
+            ex.printStackTrace();
+            }
+        }
+        return conteo;
+    }
+    public ArrayList<String> obtenerDatosAdministrador(String usuario){
+        /*    0. Apellido Paterno
+              1. Apellido Materno
+              2. Nombre
+              3. Nombre de Usuario
+              4. Rango
+              */
+        
+        //1. Obtiene los datos de ingreso del usuario
+        ArrayList <String> listaDatos = new ArrayList<>();
+        ArrayList <Users> lista = obtenerUsuario(usuario);
+        Iterator  <Users> iter = lista.iterator();
+        Users per = null;
+        while(iter.hasNext()){
+            per = iter.next();
+            int idUsuario = per.getId_user();
+            String nombreUsuario = per.getNom_user(); 
+            //2. Accede a la lista de alumnos y busca al que concuerda con el usuario
+            ArrayList <Admin_school> datos = obtenerAdministrador(idUsuario);
+            Iterator  <Admin_school> iter1 = datos.iterator();  
+            Admin_school perStudents = null;
+            while(iter1.hasNext()){
+                perStudents = iter1.next();
+                //3.Agrega datos de la tabla Alumnos
+                listaDatos.add(perStudents.getApellido_paterno_admin());
+                listaDatos.add(perStudents.getApellido_materno_admin());
+                listaDatos.add(perStudents.getNombre_admin());
+                //4. Agrega el nombre de usuario
+                listaDatos.add(nombreUsuario);
+                listaDatos.add(per.getRango());
+                /*listaDatos.add(String.valueOf(idUsuario));
+                listaDatos.add(String.valueOf(perStudents.getId_payment_student()));
+                listaDatos.add(String.valueOf(perStudents.getId_report_student()));*/
+            }
+        }
+        return listaDatos;
+    }
+    
     public ArrayList<String> obtenerDatosAlumno(String usuario){
         /*    0. Apellido Paterno
               1. Apellido Materno
@@ -304,7 +403,8 @@ public class BaseDatosObtener {
               9. Nombre de usuario
               10. Seguimiento de Pago
               11. Lista de Calificaciones*/
-              
+        
+        //1. Obtiene los datos de ingreso del usuario
         ArrayList <String> listaDatos = new ArrayList<>();
         ArrayList <Users> lista = obtenerUsuario(usuario);
         Iterator  <Users> iter = lista.iterator();
@@ -313,20 +413,22 @@ public class BaseDatosObtener {
             per = iter.next();
             int idUsuario = per.getId_user();
             String nombreUsuario = per.getNom_user(); 
-            //Accede a la lista de alumnos y busca al que concuerda con el usuario
+            //2. Accede a la lista de alumnos y busca al que concuerda con el usuario
             ArrayList <Students> datos = obtenerEstudiante(idUsuario);
             Iterator  <Students> iter1 = datos.iterator();  
             Students perStudents = null;
             while(iter1.hasNext()){
                 perStudents = iter1.next();
-                listaDatos.add(perStudents.getApellido_paterno_student());
-                listaDatos.add(perStudents.getApellido_materno_student());
-                listaDatos.add(perStudents.getNombre_student());
+                //3.Agrega datos de la tabla Alumnos
+                listaDatos.add(perStudents.getApellido_paterno_student()); //0. Apellido Paterno
+                listaDatos.add(perStudents.getApellido_materno_student()); //1. Apellido Materno
+                listaDatos.add(perStudents.getNombre_student()); //2. Nombre
+                //4. Agrega el nombre de usuario
                 listaDatos.add(nombreUsuario);
                 listaDatos.add(String.valueOf(perStudents.getFecha_nacimiento_student()));
                 listaDatos.add(perStudents.getTelefono1_student() + "<br>" +
                                perStudents.getTelefono1_student());
-                listaDatos.add(String.valueOf(perStudents.getId_teacher_student()));
+                listaDatos.add(Integer.toString(perStudents.getId_teacher_student()));
                 if(perStudents.getId_teacher_student()==0){
                     listaDatos.add("NINGUNO");
                 }
@@ -345,4 +447,53 @@ public class BaseDatosObtener {
         }
         return listaDatos;
     }
+    
+    public ArrayList<String> obtenerDatosProfesor(String usuario){
+        /*    0. Apellido Paterno
+              1. Apellido Materno
+              2. Nombre
+              3. Nombre de Usuario
+              4. Fecha de Nacimiento
+              5. Numero de Telefono
+              6. Grupo que imparte
+              7. Rango*/
+              
+        ArrayList <String> listaDatos = new ArrayList<>();
+        ArrayList <Users> lista = obtenerUsuario(usuario);
+        Iterator  <Users> iter = lista.iterator();
+        Users per = null;
+        while(iter.hasNext()){
+            per = iter.next();
+            int idUsuario = per.getId_user();
+            String nombreUsuario = per.getNom_user(); 
+            //Accede a la lista de maestros y busca al que concuerda con el usuario
+            ArrayList <Teachers> datos = obtenerTeacher(idUsuario);
+            Iterator  <Teachers> iter1 = datos.iterator();  
+            Teachers perTeachers = null;
+            while(iter1.hasNext()){
+                perTeachers = iter1.next();
+                listaDatos.add(perTeachers.getApellido_paterno_teacher());
+                listaDatos.add(perTeachers.getApellido_materno_teacher());
+                listaDatos.add(perTeachers.getNombre_teacher());
+                listaDatos.add(nombreUsuario);
+                listaDatos.add(String.valueOf(perTeachers.getFecha_nacimiento_teacher()));
+                listaDatos.add(perTeachers.getTelefono_teacher());
+                listaDatos.add(String.valueOf(perTeachers.getId_group_teacher()));
+                if(perTeachers.getId_group_teacher()==0){
+                    listaDatos.add("NINGUNO");
+                }
+                else{
+                   ArrayList<String> grupo = obtenerDatosGrupo(perTeachers.getId_user_teacher());
+                   String datosGrupos = grupo.get(0) + " "; 
+                   datosGrupos += grupo.get(1) + ": <br>";
+                   datosGrupos +=grupo.get(2);
+                   listaDatos.add(datosGrupos); 
+                   //listaDatos.add(" ");
+                }
+                listaDatos.add(per.getRango());
+            }
+        }
+        return listaDatos;
+    }
 }
+

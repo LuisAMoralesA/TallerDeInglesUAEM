@@ -20,6 +20,7 @@ public class Users {
         this.password = password;
         this.rango = rango;
     }
+    
 
     public int getId_user() {
         return id_user;

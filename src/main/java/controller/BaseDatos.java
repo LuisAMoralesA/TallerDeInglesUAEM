@@ -41,7 +41,7 @@ public class BaseDatos {
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "INSERT INTO users (nom_user, password, rango) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO users (nom_user, password, rango) VALUES (?,?,?)";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, user.getNom_user());
             pstm.setString(2, user.getPassword());
@@ -121,7 +121,7 @@ public class BaseDatos {
             
         }catch(SQLException ex){
             ex.printStackTrace();
-            pagina = USUARIO_NO_ENCONTRADO;
+            //pagina = USUARIO_NO_ENCONTRADO;
             
         }finally{
             try{
@@ -214,7 +214,13 @@ public class BaseDatos {
                     + "id_user_student, apellido_paterno_student, apellido_materno_student, nombre_student, telefono1_student, "
                     + "telefono2_student, fecha_nacimiento_student, sale_solo) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
             pstm = con.prepareStatement(sql);
-            pstm.setInt(1, student.getId_teacher_student());
+            if(student.getId_teacher_student() == 0){
+                pstm.setNull(1, java.sql.Types.INTEGER);
+            }
+            else{
+                pstm.setInt(1, student.getId_teacher_student());
+            }
+            
             pstm.setInt(2, student.getId_report_student());
             pstm.setInt(3, student.getId_payment_student());
             pstm.setInt(4, student.getId_user_student());
@@ -224,9 +230,7 @@ public class BaseDatos {
             pstm.setString(8, student.getTelefono1_student());
             pstm.setString(9, student.getTelefono2_student());
             pstm.setObject(10, student.getFecha_nacimiento_student());
-            pstm.setBoolean(11, student.isSale_solo());
-
-            
+            pstm.setInt(11, (student.isSale_solo())?1:0);
             pstm.executeUpdate();
             
         }catch(SQLException ex){
@@ -461,16 +465,17 @@ public class BaseDatos {
         try{
             String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            String sql = "INSERT INTO payment (description_status) VALUES (?)";
+            String sql = "INSERT INTO payment(register_payment, pay_1, pay_2, pay_3, pay_4"
+                    + ",pay_5, pay_6, pay_7, payment_status) VALUES (?,?,?,?,?,?,?,?,?)";
             pstm = con.prepareStatement(sql);
-            pstm.setBoolean(1, pay.isRegister_payment());
-            pstm.setBoolean(2, pay.isPay_1());
-            pstm.setBoolean(3, pay.isPay_2());
-            pstm.setBoolean(4, pay.isPay_3());
-            pstm.setBoolean(5, pay.isPay_4());
-            pstm.setBoolean(6, pay.isPay_5());
-            pstm.setBoolean(7, pay.isPay_6());
-            pstm.setBoolean(8, pay.isPay_7());
+            pstm.setInt(1, (pay.isRegister_payment())? 1:0);
+            pstm.setInt(2, pay.isPay_1()? 1:0);
+            pstm.setInt(3, pay.isPay_2()? 1:0);
+            pstm.setInt(4, pay.isPay_3()? 1:0);
+            pstm.setInt(5, pay.isPay_4()? 1:0);
+            pstm.setInt(6, pay.isPay_5()? 1:0);
+            pstm.setInt(7, pay.isPay_6()? 1:0);
+            pstm.setInt(8, pay.isPay_7()? 1:0);
             pstm.setInt(9, pay.getPayment_status());
             pstm.executeUpdate();
             

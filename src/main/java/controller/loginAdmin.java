@@ -23,8 +23,8 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author Luis Morales
  */
-@WebServlet(name = "loginStudent", urlPatterns = {"/loginStudent"})
-public class loginStudent extends HttpServlet {
+@WebServlet(name = "loginAdmin", urlPatterns = {"/loginAdmin"})
+public class loginAdmin extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,25 +37,25 @@ public class loginStudent extends HttpServlet {
         //destroy();
             if(request.getParameter("submit")!=null){
                 //Devuelve un numero segun lo indicado en el metodo de Inicio de Sesion
-                int resultado = base.inicioSesion(user, pass, "ESTUDIANTE");
+                int resultado = base.inicioSesion(user, pass, "ADMINISTRADOR");
                 switch (resultado) {
                     case BaseDatos.ACCESO_CONCEDIDO:
                         //Establece una sesion al usuario
                         sesion = request.getSession(true); 
                         sesion.setAttribute("sesionIniciada", user);
-                        response.sendRedirect("/tallerDeInglesUAEM/view/principal_students.jsp");
+                        response.sendRedirect("/tallerDeInglesUAEM/view/principal_admin.jsp");
                         break;
                     case BaseDatos.USUARIO_NO_ENCONTRADO:
                         //Impide el paso debido a que el usuario no fue encontrado
                         sesion = request.getSession(false);
                         sesion.setAttribute("errorMessage", "Usuario no encontrado");
-                        response.sendRedirect("/tallerDeInglesUAEM/view/login_student.jsp");
+                        response.sendRedirect("/tallerDeInglesUAEM/view/login_admin.jsp");
                         break;
                     case BaseDatos.DATO_INCORRECTO:
                         //Impide el paso debido a que la contraseña ingresada fue incorrecta
                         sesion = request.getSession(false);
                         sesion.setAttribute("errorMessage", "La contraseña ingresada es incorrecta");
-                        response.sendRedirect("/tallerDeInglesUAEM/view/login_student.jsp");
+                        response.sendRedirect("/tallerDeInglesUAEM/view/login_admin.jsp");
                         break;
                 }
             }      
