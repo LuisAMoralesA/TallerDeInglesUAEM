@@ -7,6 +7,11 @@
 <%@page import="java.sql.*" %>
 <%@page import="com.mysql.jdbc.Driver" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import ="controller.BaseDatosObtener"%>
+<%@page import ="model.*"%>
+<%@page import ="java.util.*"%>
+<%@page import = "jakarta.servlet.http.HttpSession"%>
+<%@page session="true"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,41 +53,51 @@
                             </div>
                         </td>
                 </tr>
-    
+                <%
+                    //Obtiene la sesion al usuario
+                    HttpSession sesion = request.getSession();
+                    String usuario = (String) sesion.getAttribute("sesionIniciada");
+                    //Accede a la base de datos y accede a los datos del usuario
+                    BaseDatosObtener base = new BaseDatosObtener();
+                    ArrayList <String> lista = base.obtenerDatosAdministrador(usuario);
+                %>
+                
                 <tr class = "impar">
                     <td class = "dato">Apellido Paterno: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(0)%> </td>
                 </tr>
     
                 <tr class = "par">
                     <td class = "dato">Apellido Materno: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(1)%> </td>
                 </tr>
     
                 <tr class = "impar">
                     <td class = "dato">Nombre: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(2)%> </td>
                 </tr>
     
                 <tr class = "par">
                     <td class = "dato">Nombre de Usuario: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(3)%> </td>
                 </tr>
         
                 <tr class = "impar">
                     <td class = "dato">Rango: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(4)%> </td>
                 </tr>
             </table>
 
             <div class="form-user">
                 <form action = "" class = "form_options" method = "POST">
-                        <td><button>Modificar Datos</button></td>
-                        <td><button>Administrar Alumnos</button></td>
-                        <td><button>Administrar Maestros</button></td>
-                        <td><button>Administrar Grupos</button></td>
-                        <td><button>Imprimir Documentos</button></td>
-                        <td><button>Cerrar Sesión</button></td>
+                        <button><i class="fa-solid fa-pen"></i> <br> Modificar Datos</button>
+                        <button><i class="fa-solid fa-users-line"></i> <br> Administrar Alumnos</button>
+                        <br>
+                        <button><i class="fa-solid fa-chalkboard-user"></i> <br> Administrar Maestros</button>
+                        <button><i class="fa-solid fa-school"></i> <br> Administrar Grupos</button>
+                        <br>
+                        <button><i class="fa-solid fa-print"></i><br>Imprimir Documentos</button>
+                        <button> <i class="fa-solid fa-right-from-bracket"></i> <br> Cerrar Sesión</button>
                 </form>
             </div>
         </div>

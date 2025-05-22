@@ -18,6 +18,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link href = "/tallerDeInglesUAEM/Images/uaem.png" rel = "icon"/>
+        <!--Librerias para alertas emergentes-->
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.all.min.js"></script>
+        <!--Link para visualizar alertas
+            https://sweetalert2.github.io/-->
     </head>
 
     <body>
@@ -35,7 +40,7 @@
                 <nav class = "navbar">
                     <ul>
                         <li>
-                            <a href="/tallerDeInglesUAEM/view/index.html"> Inicio </a>  
+                            <a href="/tallerDeInglesUAEM/index.html"> Inicio </a>  
                         </li>
 
                         <li>
@@ -52,42 +57,34 @@
             </div>
         </header>
 
-        <main>               
+        <main>
+            <br><br>
             <div class="contenedor_login_register">
-                <form method = "POST" class = "form_login">
+                <form method = "POST" class = "form_login" action = "../loginAdmin">
                     <h2> Iniciar Sesión </h2>
                     <input type = "text" id="user" name="user"placeholder="Usuario">
                     <input type = "password" id="pass" name="pass" placeholder="Contraseña">
-                    <button type="submit" name="submit"> Ingresar </button>
+                    <button type ="submit" id= "submit" name="submit"> Ingresar </button>
                 </form>
-                
+                <%
+                            HttpSession sesion = request.getSession();
+                            String mensaje = (String) sesion.getAttribute("errorMessage");
+                            if (mensaje != null && !mensaje.isEmpty()){
+                        %>
+                        <script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "<%= mensaje %>"
+                                //confirmButtonColor: "#2C5243"
+                              });
+                        </script>
+                        <%}
+                        sesion.setAttribute("errorMessage", null);%>
         </main>
         <br><br> <br> <br> <br><br>
         <br><br> <br> <br> <br><br> 
         <br><br> <br> <br> <br><br> 
-        <div class = "alert alert-success" role ="alert"> 
-                <%
-                //Si se oprime el boton  de Ingresar al sistema
-                if(request.getParameter("submit") != null){
-                    String user = request.getParameter("user");
-                    String pass = request.getParameter("pass");
-                    BaseDatos base = new BaseDatos();
-                    int accion = base.inicioSesion(user,pass,"ADMINISTRADOR");
-                    switch(accion){
-                        case 1:
-                            out.println("Alguno de los datos son incorrectos");
-                            break;
-                        
-                        case 2:
-                            out.println("Usuario no identificado");
-                            break;
-                        
-                        default:
-                            request.getRequestDispatcher("principal_admin.jsp?u="+accion).forward(request, response);
-                    }
-                }
-                %>
-        </div> 
         
         <footer id="sp-footer" > 
             <div class="container-conocenos">
@@ -166,3 +163,25 @@
         </footer>
     </body>
 </html>
+
+                <%
+                //Si se oprime el boton  de Ingresar al sistema
+                /*if(request.getParameter("submit") != null){
+                    String user = request.getParameter("user");
+                    String pass = request.getParameter("pass");
+                    BaseDatos base = new BaseDatos();
+                    int accion = base.inicioSesion(user,pass,"ADMINISTRADOR");
+                    switch(accion){
+                        case 1:
+                            out.println("Alguno de los datos son incorrectos");
+                            break;
+                        
+                        case 2:
+                            out.println("Usuario no identificado");
+                            break;
+                        
+                        default:
+                            request.getRequestDispatcher("principal_admin.jsp?u="+accion).forward(request, response);
+                    }
+                }*/
+                %>

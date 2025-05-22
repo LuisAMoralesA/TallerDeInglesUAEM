@@ -105,10 +105,11 @@
             </table>
             <div class="form-user">
                 <form action = "" class = "form_options" method = "POST">
-                    <td><button value="<%=lista.get(9)%>">Modificar Datos</button></td>
-                    <td><button value="<%=lista.get(10)%>">Consultar Pagos</button></td>
-                    <td><button value="<%=lista.get(11)%>">Consultar Calificaciones</button></td>
-                    <td><button>Cerrar Sesión</button></td>
+                    <button value="<%=lista.get(9)%>"> <i class="fa-solid fa-pen"></i> <br> Modificar Datos</button>
+                    <button value="<%=lista.get(10)%>"> <i class="fa-solid fa-money-bill"></i> <br>Consultar Pagos</button>
+                    <br>
+                    <button value="<%=lista.get(11)%>"> <i class="fa-solid fa-school"></i> <br> Consultar Calificaciones</button>
+                    <button> <i class="fa-solid fa-right-from-bracket"></i> <br> Cerrar Sesión</button>
                 </form>
             </div>
         </div>

@@ -18,6 +18,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link href = "/tallerDeInglesUAEM/Images/uaem.png" rel = "icon"/>
+        <!--Librerias para alertas emergentes-->
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.all.min.js"></script>
+        <!--Link para visualizar alertas
+            https://sweetalert2.github.io/-->
     </head>
 
     <body>
@@ -35,7 +40,7 @@
                 <nav class = "navbar">
                     <ul>
                         <li>
-                            <a href="/tallerDeInglesUAEM/view/index.html"> Inicio </a>
+                            <a href="/tallerDeInglesUAEM/index.html"> Inicio </a>
                         </li>
 
                         <li>
@@ -69,42 +74,74 @@
                 </div>
     
                 <div class="contenedor_login_register">
-                    
-                    <%
-                        // La palabra action debe tener el nombre de la clase del Servlet para funcionar
-                        // ¿Como se llama a un archivo class desde un form jsp? 
-                    %>
                     <form class = "form_login" method = "POST" action = "../loginStudent" >
                         <h2> Iniciar Sesión </h2>
                         <input type = "text" id="user" name="user" placeholder="Usuario" required = "required">
                         <input type = "password" id="pass" name="pass" placeholder="Contraseña" required = "required">
-                        <button type="submit" name="submit"> Ingresar </button>
+                        <button type="submit" id = "submit" name="submit"> Ingresar </button>
+                        
                     </form>
+                        <%
+                            HttpSession sesion = request.getSession();
+                            String mensaje = (String) sesion.getAttribute("errorMessage");
+                            if (mensaje != null && !mensaje.isEmpty()){
+                        %>
+                        <script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error de Autenticación",
+                                text: "<%= mensaje %>"
+                                //confirmButtonColor: "#2C5243"
+                              });
+                        </script>
+                        <%}
+                        sesion.setAttribute("errorMessage", null);%>
                     
-                    <form action = "" class = "form_register" method = "POST">
+                    <form class = "form_register" method = "POST" action = "../registerStudent">
                         <h2> Registrarse </h2>
-                        <input type = "text" placeholder="Apellido Paterno">
-                        <input type = "text" placeholder="Apellido Materno">
-                        <input type = "text" placeholder="Nombre">
+                        <input type = "text" name = "apaterno" id = "apaterno" placeholder="Apellido Paterno">
+                        <input type = "text" name = "amaterno" id = "amaterno" placeholder="Apellido Materno">
+                        <input type = "text" name = "name" id = "name" placeholder="Nombre">
+                        <input type = "text" name = "phone" id = "phone" placeholder="Numero de Telefono">
                         <p> Fecha de nacimiento:  </p> 
-                        <input type = "date" placeholder="Fecha de nacimiento" class = "date">
-                        <input type = "text" placeholder="Correo Electronico">
-                        <input type = "password" placeholder="Contraseña">
-                        <input type = "password" placeholder="Confirmar Contraseña">
+                        <input type = "date" name = "birthdate" id = "birthdate" placeholder="Fecha de nacimiento" class = "date">
+                        <input type = "text" name = "email" id = "email" placeholder="Correo Electronico">
+                        <input type = "password" name = "password1" id = "password1" placeholder="Contraseña">
+                        <input type = "password" name = "password2" id = "password2" placeholder="Confirmar Contraseña">
                         <button type="submit" name="add" id = "add"> Concluir registro </button>
                     </form>
+                        <%
+                            String mensaje1 = (String) sesion.getAttribute("contraseñaCorrecta");
+                            String mensajeUsuario = (String) sesion.getAttribute("userNameRegistrado");
+                            String mensaje2 = (String) sesion.getAttribute("contraseñaIncorrecta");
+                            if (mensaje1 != null && !mensaje1.isEmpty()){
+                        %>
+                        <script>
+                            Swal.fire({
+                                icon: "success",
+                                title: "<%= mensaje1 %>",
+                                text: "<%= mensajeUsuario %>"
+                                //confirmButtonColor: "#2C5243"
+                              });
+                        </script>
+                        <%}else if (mensaje2!=null && !mensaje2.isEmpty()){%>
+                        <script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "Contraseñas incorrectas.",
+                                text: "<%= mensaje2 %>"
+                                //confirmButtonColor: "#2C5243"
+                              });
+                        </script>
+                        <%}
+                        sesion.setAttribute("contraseñaCorrecta", null);
+                        sesion.setAttribute("userNameRegistrado", null);
+                        sesion.setAttribute("contraseñaIncorrecta", null);%>
                 </div> 
             </div>
         </main>
         <br><br> <br> <br> <br><br> <br> <br>
-        <%
-            String mensaje = (String) request.getAttribute("errorMessage");
-            if (mensaje != null && !mensaje.isEmpty()){
-        %>
-        <div class = "alert alert-success" role ="alert">
-            <%= mensaje %>
-        </div>
-        <%}%>
+        
         <footer id="sp-footer" > 
             <div class="container-conocenos">
                 <br>
@@ -184,62 +221,3 @@
     </body>
     
 </html>
-<%
-        //ResultSet rs = null;
-            //Clases Entidad: Conecta la aplicacion con la Base de Datos. (Modelo)
-        /*Connection con = null;
-            Statement stm = null;
-            ResultSet rs = null;
-            Class.forName("com.mysql.jdbc.Driver");
-            String urlDB = "jdbc:mysql://localhost:3306/tallerdeingles?autoReconnect=true&useSSL=false";
-            con = DriverManager.getConnection(urlDB, "nbUser", "123456");
-            stm = con.createStatement();*/
-        /*
-            rs = stm.executeQuery("SELECT * FROM users WHERE nom_user ='" + user + "' AND rango ='ESTUDIANTE'" );
-                    if(rs.next()){
-                        if(user.equals(rs.getString(2)) && pass.equals(rs.getString(3))){
-                            int id = rs.getInt(1);
-                            ResultSet rsAdmin = stm.executeQuery("SELECT * FROM students WHERE id_user_student ='" + id + "';" );
-                            rsAdmin.next();
-                            String firstName = rsAdmin.getString(6) ;
-                            String lastName = rsAdmin.getString(7);
-                            String name = rsAdmin.getString(8);
-                            
-                            request.getRequestDispatcher("principal_students.jsp").forward(request, response);
-                            //out.println("BIENVENIDO AL SISTEMA, ALUMNO "+ "<br>" + firstName + " " + lastName + " " + name);
-                            
-                            //Cookies ¿Como generar sesion de usuario en JSP?
-                            //Pasar valores entre Paginas JSP
-                            //End Sesion
-                        }else{
-                            out.println("Alguno de los datos son incorrectos");
-                        }
-                    }
-                    else{
-                        out.println("Usuario no identificado");
-                    } 
-        */%>
-        
-        <%
-            /*
-                if(request.getParameter("submit") != null){
-                    String user = request.getParameter("user");
-                    String pass = request.getParameter("pass");
-                    BaseDatos base = new BaseDatos();
-                    String accion = base.inicioSesion(user,pass,"ESTUDIANTE");
-                    switch(accion){
-                        case "1":
-                            out.println("Alguno de los datos son incorrectos");
-                            break;
-                        
-                        case "2":
-                            out.println("Usuario no identificado");
-                            break;
-                        
-                        default:
-                            //
-                            request.getRequestDispatcher("principal_students.jsp?u="+accion).forward(request, response);
-                    }
-                }
-            */
-        %>

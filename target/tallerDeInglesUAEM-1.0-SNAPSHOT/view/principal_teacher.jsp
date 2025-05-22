@@ -6,7 +6,12 @@
 
 <%@page import="java.sql.*" %>
 <%@page import="com.mysql.jdbc.Driver" %>
+<%@page import ="controller.BaseDatosObtener"%>
+<%@page import ="model.*"%>
+<%@page import ="java.util.*"%>
+<%@page import = "jakarta.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,55 +53,63 @@
                             </div>
                         </td>
                 </tr>
-    
+                <%
+                    //Obtiene la sesion al usuario
+                    HttpSession sesion = request.getSession();
+                    String usuario = (String) sesion.getAttribute("sesionIniciada");
+                    //Accede a la base de datos y accede a los datos del usuario
+                    BaseDatosObtener base = new BaseDatosObtener();
+                    ArrayList <String> lista = base.obtenerDatosProfesor(usuario);
+                %>
+                
                 <tr class = "impar">
                     <td class = "dato">Apellido Paterno: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(0)%> </td>
                 </tr>
     
                 <tr class = "par">
                     <td class = "dato">Apellido Materno: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(1)%> </td>
                 </tr>
     
                 <tr class = "impar">
                     <td class = "dato">Nombre: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(2)%> </td>
                 </tr>
     
                 <tr class = "par">
                     <td class = "dato">Nombre de Usuario: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(3)%> </td>
                 </tr>
     
                 <tr class = "impar">
                     <td class = "dato">Fecha de Nacimiento: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(4)%> </td>
                 </tr>
     
                 <tr class = "par">
                     <td class = "dato">Numero de Telefono: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(5)%> </td>
                 </tr>
     
-                <tr class = "impar">
+                <tr class = "impar" value = "<%=lista.get(6)%>">
                     <td class = "dato">Grupo que Imparte: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(7)%> </td>
                 </tr>
                 
                 <tr class = "par">
                     <td class = "dato">Rango: </td>
-                    <td>??? </td>
+                    <td><%=lista.get(8)%> </td>
                 </tr>
             </table>
 
             <div class="form-user">
                 <form action = "" class = "form_options" method = "POST">
-                    
-                        <td><button>Modificar Datos</button></td>
-                        <td><button>Imprimir Bitacoras</button></td>
-                        <td><button>Asignar Calificaciones</button></td>
-                        <td><button>Cerrar Sesión</button></td>
+                    <button><i class="fa-solid fa-pen"></i> <br> Modificar Datos</button></td>
+                    <button><i class="fa-solid fa-print"></i><br>Imprimir Bitacoras</button>
+                    <br>
+                    <button><i class="fa-solid fa-clipboard"></i> <br>Asignar Calificaciones</button>
+                    <button> <i class="fa-solid fa-right-from-bracket"></i> <br> Cerrar Sesión</button>
                 </form>
             </div>
         </div>
