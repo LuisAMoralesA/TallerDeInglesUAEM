@@ -15,8 +15,7 @@
 .header {
     background-image: linear-gradient(
         rgba(0,0,0,0.6),
-        rgba(62,84,52,0.6),
-        rgba(156,132,18,0.8)
+        rgba(62,84,52,0.6)
         );
     min-height: 15vh;
     display: flex;
@@ -88,23 +87,36 @@
     text-align: justify;
 }
 
-
-
 body {
-    background-image: url(../Images/FotoCursos.jpg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(7px);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
 }
 
+.admin-body {
+    background-image: url(../Images/Fondo1.jpg);
+}
+
+.body-student {
+    background-image: url(../Images/Fondo2.jpg);
+}
+
+.body-teacher {
+    background-image: url(../Images/Fondo3.jpg);
+}
 main{
     width: 100%;
     padding: 20px;
     margin: auto;
-    margin-top: 100px;
+    margin-top: 10px;
     display:grid;
     place-items: center;
+    flex: 1;
 }
 
 .logo { 
@@ -187,8 +199,9 @@ main{
 }
 
 .contenedor_login_register form{
+    border-color: black;
     width: 100%;
-    padding: 80px 20px;
+    padding: 20px 20px;
     background-color: white;
     position: absolute;
     border-radius: 30px;
@@ -241,27 +254,74 @@ main{
     margin-top: 30px;
  }
 
- #sp-footer h1 {
-    text-align: center;
-    color: gray;
+ .contenedor_login_register1{
+    display:flex;
+    align-items: center;
+    width: 100%;
+    max-width: 380px;
+    position: absolute;
+    /*left: 200px;*/
+}
+
+
+
+.contenedor_login_register1 form{
+    width: 100%;
+    padding: 80px 20px;
+    background-color: white;
+    position: absolute;
+    border-radius: 30px;
+}
+
+.contenedor_login_register1 form h2{
+   font-size: 30px;
+   text-align: center;
+   margin-bottom: 23px;
+   color:rgba(156, 132, 18, 1);
 
 }
 
-#sp-footer {
-    background:rgb(255,255,255);
-    color:rgb(99, 97, 97);
-}
+.contenedor_login_register1 form input{
+    width:100%;
+    margin-top: 10px;
+    padding:9px;
+    background: rgb(255,240,190);
+    color:rgba(156, 132, 18, 1);
+    border:none;
+ }
 
-#sp-footer a {
-    color:#8f8c8c
-}
-
-#sp-footer span {
+.contenedor_login_register1 form button{    
+    padding:10px 40px;
+    margin-top: 40px;
     font-size: 15px;
+    background:rgb(44, 82, 52);
+    color:white;
+    border:none;
+    cursor:pointer;
+
+ }
+
+ .contenedor_login_register1 form button:hover{    
+    background: rgba(156, 132, 18, 1);
+    color:white;
+ }
+
+ .form_login1{
+    opacity:1;
+    display: block;
+    margin:auto;
+ }
+ 
+ .footer{
+    width:100%;
+    background-color: rgb(255, 255, 255);
+    columns: 2;
+    text-align: center;
+    color: rgb(0, 0, 0);
 }
 
-.privacy {
-    text-align: center;
+.links {
+    color:#8f8c8c
 }
 
 .container-conocenos {
@@ -301,5 +361,10 @@ main{
 
     .contenedor_login_register form{
         position:relative;
+    }
+    
+    .sp-footer {
+        flex-direction: column;
+        align-items: center;
     }
  }

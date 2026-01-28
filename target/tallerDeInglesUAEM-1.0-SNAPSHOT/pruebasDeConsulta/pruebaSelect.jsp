@@ -1,16 +1,13 @@
 <%-- 
-    Document   : pruebaUsers
-    Created on : 5 may. 2025, 18:22:25
+    Document   : pruebaStudents
+    Created on : 5 may. 2025, 15:09:11
     Author     : Luis Morales
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import ="controller.BaseDatos"%>
-<%@page import ="model.Users"%>
-<%@page import ="encriptacion.*"%>
+<%@page import ="controller.*"%>
+<%@page import ="model.ConsultaGrupos"%>
 <%@page import ="java.util.*"%>
-<%@page import="java.sql.*" %>
-<%@page import="com.mysql.jdbc.Driver" %>
 
 <!DOCTYPE html>
 <html>
@@ -19,43 +16,45 @@
         <!--Links de Hojas de estilo para la tabla-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="https://cdn.datatables.net/2.3.0/css/dataTables.bootstrap5.css"/>
-        <title>Lista de Usuarios</title>
+        <title>Lista de Teachers</title>
     </head>
     <body>
         <!--Tabla obtenida de Bootstrap-->
         <table id="example" class="table table-striped">
         <thead>
             <tr>
-                <th>Id de Usuario</th>
-                <th>Nombre de Usuario</th>
-                <th>Contraseña</th>
-                <th>Rango</th>
+                <th>Id del grupo</th>
+                <th>Id del Grado</th>
+                <th>Descripción del grado</th>
+                <th>Nivel</th>
+                <th>Id de Categoria</th>
+                <th>Descripcion de Categoria</th>
+
             </tr>
         </thead>
         <%
-            BaseDatos base = new BaseDatos();
-            ArrayList<Users> lista = base.obtenerUsuario();
-            Iterator<Users> iter = lista.iterator();
-            Users per = null;
-            SHA256 encrypt = new SHA256();
+            BaseDatosObtener base = new BaseDatosObtener();
+            ArrayList <ConsultaGrupos> opciones = base.obtenerDatosGrupo(1);
+            Iterator <ConsultaGrupos> iter = opciones.iterator();
+            ConsultaGrupos per = null;
             while(iter.hasNext()){
                 per = iter.next();
         %>
         <tbody>
             <tr>
-                <td><%=per.getId_user()%></td>
-                <td><%=per.getNom_user()%></td>
-                <td><%=per.getPassword()%></td>
-                <td><%=per.getRango()%></td>
-                
-                
+                <td><%=per.getId_group()%></td> 
+                <td><%=per.getId_grade()%></td> 
+                <td><%=per.getDescription_grade()%></td> 
+                <td><%=per.getLevel_group()%></td> 
+                <td><%=per.getId_category_group()%></td> 
+                <td><%=per.getDescription_category()%></td> 
             </tr>
-         <%}%>   
+            <%}%>
         </tbody>
         
     </table>
     </body>
-    <!--Scripts de JavaScript para la tabla de Datos-->
+    <!--Scrpts de JavaScript para la tabla de Datos-->
     <script src ="https://code.jquery.com/jquery-3.7.1.js"> </script>
     <script src ="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"> </script>
     <script src ="https://cdn.datatables.net/2.3.0/js/dataTables.js"> </script>
@@ -64,3 +63,4 @@
         new DataTable('#example');
     </script>
 </html>
+

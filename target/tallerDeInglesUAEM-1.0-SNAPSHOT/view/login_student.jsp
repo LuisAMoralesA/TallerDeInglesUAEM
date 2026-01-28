@@ -1,22 +1,17 @@
-<%-- 
-    Document   : login_student
-    Created on : 19 abr. 2025, 15:08:03
-    Author     : Luis Morales
---%>
-
 <%@page import="java.sql.*" %>
 <%@page import="com.mysql.jdbc.Driver" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import ="controller.BaseDatos"%>
+<%@page import ="controller.*"%>
 <!doctype html>
 <html lang = "es">
+    
     <head>
         <meta charset = "UTF-8">
         <meta name = "viewport" content = "width-device-width, initial-scale = 1.0">
         <title> Iniciar Sesion </title>
         <link rel = "stylesheet" href = "/tallerDeInglesUAEM/css/style_login.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  
         <link href = "/tallerDeInglesUAEM/Images/uaem.png" rel = "icon"/>
         <!--Librerias para alertas emergentes-->
         <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" rel="stylesheet">
@@ -25,7 +20,7 @@
             https://sweetalert2.github.io/-->
     </head>
 
-    <body>
+    <body class = "body-student">
         <header class = "header">
             <div class="menu container">
                 <a href="https://cuecatepec.uaemex.mx/" class="logo-navbar">
@@ -40,7 +35,7 @@
                 <nav class = "navbar">
                     <ul>
                         <li>
-                            <a href="/tallerDeInglesUAEM/index.html"> Inicio </a>
+                            <a href="../index.html"> Inicio </a>
                         </li>
 
                         <li>
@@ -74,6 +69,7 @@
                 </div>
     
                 <div class="contenedor_login_register">
+                    <%//Este apartado usa el servlet loginStudent%>
                     <form class = "form_login" method = "POST" action = "../loginStudent" >
                         <h2> Iniciar Sesión </h2>
                         <input type = "text" id="user" name="user" placeholder="Usuario" required = "required">
@@ -82,28 +78,35 @@
                         
                     </form>
                         <%
+                            //Obtiene la sesion que se encuentra en el navegador
                             HttpSession sesion = request.getSession();
-                            String mensaje = (String) sesion.getAttribute("errorMessage");
-                            if (mensaje != null && !mensaje.isEmpty()){
+                            //Busca si se trato de autenticarse pero no coincidian los datos
+                            String errorMessage = (String) sesion.getAttribute("errorMessage");
+                            //Si esta accion es detectada, se abre el cuadro de texto diciendo el error de autenticación
+                            if (errorMessage != null && !errorMessage.isEmpty()){
                         %>
                         <script>
                             Swal.fire({
                                 icon: "error",
                                 title: "Error de Autenticación",
-                                text: "<%= mensaje %>"
-                                //confirmButtonColor: "#2C5243"
+                                text: "<%= errorMessage %>",
+                                confirmButtonColor: "#9C8412"
                               });
                         </script>
                         <%}
-                        sesion.setAttribute("errorMessage", null);%>
-                    
+                        //Establece que no hay mensaje de error
+                        sesion.setAttribute("errorMessage", null);
+                        sesion.setAttribute("sesionIniciada", null);
+                        %>
+                        
+                    <%//Este apartado usa el servlet registerStudent%>
                     <form class = "form_register" method = "POST" action = "../registerStudent">
                         <h2> Registrarse </h2>
                         <input type = "text" name = "apaterno" id = "apaterno" placeholder="Apellido Paterno">
                         <input type = "text" name = "amaterno" id = "amaterno" placeholder="Apellido Materno">
                         <input type = "text" name = "name" id = "name" placeholder="Nombre">
-                        <input type = "text" name = "phone" id = "phone" placeholder="Numero de Telefono">
-                        <p> Fecha de nacimiento:  </p> 
+                        <input type = "text" name = "phone" id = "phone" placeholder="Numero de Telefono" maxlength = 10>
+                        <label for ="date"> Fecha de Nacimiento </label>
                         <input type = "date" name = "birthdate" id = "birthdate" placeholder="Fecha de nacimiento" class = "date">
                         <input type = "text" name = "email" id = "email" placeholder="Correo Electronico">
                         <input type = "password" name = "password1" id = "password1" placeholder="Contraseña">
@@ -111,25 +114,29 @@
                         <button type="submit" name="add" id = "add"> Concluir registro </button>
                     </form>
                         <%
-                            String mensaje1 = (String) sesion.getAttribute("contraseñaCorrecta");
+                            //Establece los atributos de sesion relacionados al Inicio de sesion
+                            String contraseñaCorrecta = (String) sesion.getAttribute("contraseñaCorrecta");
                             String mensajeUsuario = (String) sesion.getAttribute("userNameRegistrado");
-                            String mensaje2 = (String) sesion.getAttribute("contraseñaIncorrecta");
-                            if (mensaje1 != null && !mensaje1.isEmpty()){
+                            String contraseñaIncorrecta = (String) sesion.getAttribute("contraseñaIncorrecta");
+                            //Si la contraseña es correcta, entonces se dirige a la siguiente pantalla
+                            if (contraseñaCorrecta != null && !contraseñaCorrecta.isEmpty()){
                         %>
                         <script>
                             Swal.fire({
                                 icon: "success",
-                                title: "<%= mensaje1 %>",
+                                title: "<%= contraseñaCorrecta %>",
                                 text: "<%= mensajeUsuario %>"
                                 //confirmButtonColor: "#2C5243"
                               });
                         </script>
-                        <%}else if (mensaje2!=null && !mensaje2.isEmpty()){%>
+                        <%}
+                        //De lo contrario, si es incorrecta manda el mensaje en pantalla
+                        else if (contraseñaIncorrecta!=null && !contraseñaIncorrecta.isEmpty()){%>
                         <script>
                             Swal.fire({
                                 icon: "error",
                                 title: "Contraseñas incorrectas.",
-                                text: "<%= mensaje2 %>"
+                                text: "<%= contraseñaIncorrecta %>"
                                 //confirmButtonColor: "#2C5243"
                               });
                         </script>
@@ -140,83 +147,41 @@
                 </div> 
             </div>
         </main>
-        <br><br> <br> <br> <br><br> <br> <br>
+
         
-        <footer id="sp-footer" > 
-            <div class="container-conocenos">
+        <footer class="footer" > 
+        <div class="ubicacion">
+            <p class ="p-mapa">
+            <i class="fas fa-map-marker-alt"></i>
+                <b> Calle:  </b> Jose Revueltas No. 17
                 <br>
-                <h1> Contactanos </h1>
+                <b>Colonia: </b> Tierra Blanca
                 <br>
-    
-                <table class = "tabla-conocenos">
-                    <tr>
-                        <td>
-                            <p><i class="fas fa-map-marker-alt"></i>
-                                Instituto Literario 100, Centro, <br>
-                                Toluca, Estado de México, <br>
-                                México, C.P. 50000 </p>
-                        </td>
+                Ecatepec de Morelos
+                <br>
+                <i>55020</i>
+            </p>
+        </div>
         
-                        <td>
-                            <p>
-                                <span>
-                                    UAEMéx
-                                </span>&nbsp;
-                                <a href="https://www.facebook.com/UAEMex" target="_blank" rel="noopener">
-                                    <i class="fa-brands fa-facebook"></i>&nbsp;
-                                </a>
-    
-                                <a href="https://twitter.com/UAEM_MX" target="_blank" rel="noopener">
-                                    <i class="fa-solid fa-x"></i>&nbsp;
-                                </a>
-                                
-                                <a href="https://www.youtube.com/channel/UCe8Se89aeErlTzKnwhFkOtQ" target="_blank" rel="noopener">
-                                    <i class="fa-brands fa-youtube"></i>
-                                </a>&nbsp;
-                                
-                                <a href="https://www.instagram.com/uaemex_oficial/" target="_blank" rel="noopener">
-                                    <i class="fa-brands fa-square-instagram"></i>
-                                </a>&nbsp;
-                            </p> 
-                        </td>
-        
-                        <td>
-                            <p>
-                                <span>
-                                    <a href="https://www.uaemex.mx/comit%C3%A9-de-%C3%A9tica-de-la-investigaci%C3%B3n.html" target="_blank" rel="noopener">
-                                        <i class="fas fa-external-link-alt" style="font-size: 20px;" aria-hidden="true"></i> 
-                                        Comité de Ética de investigación
-                                    </a>
-                                </span>
-                            </p>
-                        </td>
-    
-                        <td>
-                            <p>
-                                <a href="http://web.uaemex.mx/contraloriasocial.html" target="_blank" rel="noopener">
-                                    <img src="https://www.uaemex.mx/images/2020/contraloriasocial.png" alt="Contraloría Social" width="220" height="112" style="display: block; margin-left: auto; margin-right: auto;" />
-                                </a>
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <p class = "privacy">
-                    <span style="color: #000000;">
-                        <a href="https://www.uaemex.mx/avisos/Aviso_Privacidad.pdf" target="_blank" rel="noopener" style="color: #000000;">
-                            <span>
-                                Aviso. de Privacidad Universidad Autónoma del Estado de México&nbsp;© 2022 Todos los derechos reservados
-                            </span>
-                        </a>
-                    </span>
-                </p>
-                
-                <p>
-                    <a href="https://tics.uaemex.mx" target="_blank" rel="noopener">
-                        <img src="https://tics.uaemex.mx/images/logos/DTIC_1B.png" alt="identidad-DTIC-2019_02.png" width="213" height="73" style="display: block; margin-left: auto; margin-right: auto;" />
+
+        <div class="links">
+            <ul>
+                <li>
+                    <a href="https://www.facebook.com/TallerdeInglesEcatepec" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-facebook"></i>&nbsp; 
+                        Taller de Ingles para Niños y Adolescentes 
                     </a>
-                </p>
-        </footer>
+                </li>
+
+                <li>
+                    <a href="mailto:tallerdeinglesuaem@gmail.com">
+                        <i class="fa-brands fa-square-instagram"></i>&nbsp; 
+                        tallerdeinglesuaem@gmail.com
+                    </a>         
+                </li>
+            </ul>
+        </div>
+    </footer>
         <script src = "/tallerDeInglesUAEM/js/prueba.js"></script>
     </body>
     
