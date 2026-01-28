@@ -19,10 +19,11 @@ import controller.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
 import java.util.Iterator;
+import encriptacion.*;
 
 /**
- *
- * @author hp
+ * Servlet que se activa cuando se intenta registrar a un alumno desde el sitio web. 
+ * @author Luis Morales
  */
 @WebServlet(name = "registerStudent", urlPatterns = {"/registerStudent"})
 public class registerStudent extends HttpServlet {
@@ -50,11 +51,16 @@ public class registerStudent extends HttpServlet {
             HttpSession sesion = request.getSession(false);
             if(password1.equals(password2)){
                 //Crea las conexiones a la base de datos
-                BaseDatos base = new BaseDatos();
+                BaseDatosInsertar base = new BaseDatosInsertar();
                 BaseDatosObtener consulta = new BaseDatosObtener();
                 //Generar Nombre de Usuario
                 String nomUsuario = apaterno.substring(0,2) + amaterno.substring(0,1)+name.substring(0,3) + 
                                     birthdate.substring(2,4) + birthdate.substring(5,7) + birthdate.substring(8,10);
+                
+                //Hashear la contraseña a la hora de ingresarla a la base de datos
+                //password1 = String.valueOf(password1.hashCode());
+                SHA256 hash = new SHA256();
+                password1 = hash.contraseñaNueva(password1);
                 
                 //Apesar de tener un valor de 1, no lo tomara en cuenta el codigo
                 Users user = new Users(1, nomUsuario, password1,"ESTUDIANTE");
@@ -86,9 +92,6 @@ public class registerStudent extends HttpServlet {
                                                     name,phone,phone,(Object) birthdate, email, false);
                     base.insertarEstudiante(student);
                 }
-                
-                
-                
                 response.sendRedirect("/tallerDeInglesUAEM/view/login_student.jsp");
             }
             else{

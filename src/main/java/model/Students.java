@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.Date;
 
 /**
- *
+ * Es una representacion de la tabla Students dentro de la base de datos. 
  * @author Luis Morales
  */
 public class Students {
@@ -25,7 +25,23 @@ public class Students {
     private Object fecha_nacimiento_student;
     private String email_student;
     private boolean sale_solo;
-
+    
+    /**
+     * Es una representacion de la tabla Students dentro de la base de datos. 
+     * @param id_student
+     * @param id_teacher_student        Id del profesor 
+     * @param id_report_student         Id de la lista de calificaciones del alumno
+     * @param id_payment_student        Id de la lista de seguimiento de pago del alumno
+     * @param id_user_student           Id de usuario del Alumno
+     * @param apellido_paterno_student  Apellido Paterno
+     * @param apellido_materno_student  Apellido Materno
+     * @param nombre_student            Nombre del Alumno
+     * @param telefono1_student         Telefono 1 del Alumno
+     * @param telefono2_student         Telefono 2 del Alumno
+     * @param fecha_nacimiento_student  Fecha de nacimiento
+     * @param email_student             Correo electronico del alumno
+     * @param sale_solo                 Si el alumno tiene la opcion de salir solo del plantel
+     */
     public Students(int id_student, int id_teacher_student, int id_report_student, int id_payment_student, 
                     int id_user_student, String apellido_paterno_student, String apellido_materno_student, 
                     String nombre_student, String telefono1_student, String telefono2_student, 

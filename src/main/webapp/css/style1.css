@@ -15,8 +15,7 @@
 .header {
     background-image: linear-gradient(
         rgba(0,0,0,0.7),
-        rgba(62,84,52,0.9),
-        rgba(156,132,18,1)
+        rgba(62,84,52,0.9)
         ),
         url(../Images/UAEMex1.jpg);
     background-position: center bottom;
@@ -100,21 +99,14 @@
 }
 .vision {
     padding: 100px 0;
-    background-color: white;
-    position: relative;
-    background-image: linear-gradient(
-        
-        rgba(156,132,18,0.7),
-        rgba(62,84,52,0.9),
-        rgba(0,0,0,1)
-        ),
-        url(../Images/FotoAlumnos.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 70vh;
     display: flex;
     align-items: center;
+    background-image: url(../Images/Fondo4.jpg);
+    backdrop-filter: blur(7px);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .vision-content {
@@ -126,66 +118,30 @@
     line-height: 70px;
     color: rgb(20, 20, 20);
     text-transform: uppercase;
-    padding: 0 250px;
+    padding: 0;
     margin-bottom: 15px;
     border: 15px;
 }
 
 .p-vision {
     font-size: 18px;
-    color: beige;
     padding: 0 250px;
     font-weight: 150px;
     margin-bottom: 15px;
     text-align: justify;
 }
 
-.ubicacion {
-    background-color: white;
-    background-size: cover; 
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-}
-
-caption {
+.p-horarios {
+    font-size: 18px;
     text-align: center;
-    font-weight: 30px;
-    font-style: italic;
-    font-size: 20px;
-    padding-top: 30px;
-    padding-bottom:15px;
-    background-color: rgba(156,132,18,0.3);
 }
-
 iframe {
     width: 1000px;
     height: 700px;
-    pointer-events: none;
     align-content: center;
 }
 
-
-.tabla-ubicacion {
-    background-color:rgb(255,255,255);
-    padding-bottom: 3px;
-    border: 1px solid;
-    border-collapse: collapse;
-}
-
-.tabla-ubicacion h1 {
-    font-size: 50px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    text-align: center;
-    color: rgba(62,84,52,1);
-    background-color: rgba(156,132,18,0.4);
-    padding-bottom: 15px;
-}
-
-.tabla-ubicacion h2 {
+.vision-content h2 {
     font-size: 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
@@ -193,7 +149,7 @@ iframe {
     padding-bottom: 15px;
 }
 
-.tabla-ubicacion h3 {
+.vision-content h3 {
     font-size: 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
@@ -201,60 +157,66 @@ iframe {
     padding-bottom: 15px;
 }
 
-#facebook::before {
-    content: '';
-    display: inline-block;
-    width:30px;
-    height:30px;
-    background-image: url(../Images/facebook.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}
-
-/*# es para Id, . es para class*/
-#email::before {
-    content: '';
-    display: inline-block;
-    width:30px;
-    height:30px;
-    background-image: url(../Images/correo.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}
-
-#sp-footer h1 {
+.footer{
+    width:100%;
+    background-color: rgb(255, 255, 255);
+    columns: 2;
     text-align: center;
-    color: gray;
-
+    color: rgb(0, 0, 0);
 }
 
-#sp-footer {
-    background:rgb(255,255,255);
-    color:rgb(99, 97, 97);
-}
-
-#sp-footer a {
+.links {
     color:#8f8c8c
-}
-
-#sp-footer span {
-    font-size: 15px;
-}
-
-.privacy {
-    text-align: center;
-}
-
-.container-conocenos {
-    display:grid;
-    padding: 0 250px;
-    margin: 0 auto;
-    align-items: center;
 }
 
 li {
     list-style: none;
     text-overflow: clip;
+}
+
+@media (max-width: 991px){
+    .menu {
+        padding: 10px;
+    }
+
+    .menu label {
+        display: initial;
+    }
+
+    .menu .navbar {
+        position: absolute;
+        top: 100%;
+        left:0;
+        right:0;
+        background-color: rgba(156,132,18,0.4);
+    }
+
+    .menu .navbar ul li {
+        width: 100%
+    }
+
+
+    .logo-taller {
+        display: none;
+    }
+
+    .header-content p {
+        padding: 350px 150px;
+    }
+
+    .p-vision {
+        padding: 0 150px;
+    }
+
+    iframe {
+        width:80%;
+        height:450px;
+        padding: 0;
+        order: 1;
+    }
+
+    .sp-footer {
+        flex-direction: column;
+        align-items: center;
+    }
 }

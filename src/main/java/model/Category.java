@@ -5,7 +5,7 @@
 package model;
 
 /**
- *
+ * Es una representacion de la tabla Category dentro de la base de datos. 
  * @author Luis Morales
  */
 public class Category {

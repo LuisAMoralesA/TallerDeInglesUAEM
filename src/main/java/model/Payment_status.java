@@ -5,7 +5,7 @@
 package model;
 
 /**
- *
+ * Es una representacion de la tabla Payment_status dentro de la base de datos. 
  * @author Luis Morales
  */
 public class Payment_status {

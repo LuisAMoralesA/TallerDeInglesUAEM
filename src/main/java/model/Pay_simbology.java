@@ -7,7 +7,7 @@ package model;
 import java.util.Date;
 
 /**
- *
+ * Es una representacion de la tabla Pay_simbology dentro de la base de datos. 
  * @author Luis Morales
  */
 public class Pay_simbology {

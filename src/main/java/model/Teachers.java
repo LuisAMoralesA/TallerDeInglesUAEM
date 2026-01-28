@@ -7,7 +7,7 @@ package model;
 import java.util.Date;
 
 /**
- *
+ * Es una representacion de la tabla Teachers dentro de la base de datos. 
  * @author Luis Morales
  */
 public class Teachers {
